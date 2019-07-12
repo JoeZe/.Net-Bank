@@ -1,0 +1,59 @@
+﻿@model NetBankAppV1.Models.Transaction 
+
+<h4>Transfer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Transfer">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div>
+                <span><strong>Account Number: </strong> </span>
+                @ViewBag.Accounts
+            </div> <br>
+            <div>
+                <span><strong>Account Balance: $</strong> </span>
+                @ViewBag.Balance
+            </div><br>
+                  <div class="form-group">
+                      <label asp-for="account.AccountNumber" class="control-label">To Account Number: </label>
+                      @if (ViewBag.ErrorMessage != null)
+                      {
+                          @ViewBag.ErrorMessage
+                      }
+                      <select asp-for="account.AccountNumber" id="Account-Number">
+                          <option value="">Select an account! </option>
+                          @foreach (var act in ViewBag.AccountList)
+                          {                       
+                              <option value=@act.AccountNumber>
+                                  <div class="form-group">
+                                      <span>@act.GetType().Name </span>
+                                      <span>  | Account Number:  </span>
+                                      <span>@act.AccountNumber </span>
+                                      <span>  | Balance: $</span>
+                                      <span>@act.Balance </span>
+
+                                  </div>
+                              </option>
+                          }
+                      </select>                 
+                      <span asp-validation-for="account.AccountNumber" class="text-danger"></span>
+                  </div>
+            <div class="form-group">
+                <label asp-for="amount" class="control-label">Amount</label>
+                <input asp-for="amount" class="form-control" />
+                <span asp-validation-for="amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Transfer" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Accounts" asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<NetBankAppV1.Models.Transaction>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Transcation Log</h2>
+<div>
+    <span><strong>Account Number: </strong> </span>
+    @ViewBag.Accounts
+</div><br>
+<div>
+    <span><strong>Account Balance: $</strong> </span>
+    @ViewBag.Balance
+</div><br>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TranscationType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.amount)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TranscationType)
+                </td>
+                <td>
+                    $@Html.DisplayFor(modelItem => item.amount)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-controller="Accounts" asp-action="Index">Back to List</a>
+</div>

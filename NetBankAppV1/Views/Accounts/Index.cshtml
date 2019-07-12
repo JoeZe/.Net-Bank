@@ -1,0 +1,111 @@
+﻿@model IEnumerable<NetBankAppV1.Models.Account>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+
+    .dropbt {
+        background-color: white;
+        color: black;
+        padding: 9px;
+        font-size: 11px;
+        border: none;
+    }
+
+    .dropDown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdownContent {
+        display: none;
+        position: absolute;
+        background-color: lightgray;
+        min-width: 200px;
+        z-index: 1;
+    }
+
+        .dropdownContent a {
+            color: black;
+            padding: 10px 12px;
+            text-decoration: none;
+            display: block;
+            font-size: 11px;
+        }
+
+            .dropdownContent a:hover {
+                background-color: skyblue;
+            }
+
+    .dropDown:hover .dropdownContent {
+        display: block;
+    }
+
+    .dropDown:hover .dropbt {
+        background-color: skyblue;
+    }
+</style>
+<h2>Welcome @ViewBag.CustomerName! </h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GetType().Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Balance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InterestRate)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccountNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GetType().Name)
+                </td>
+                <td>
+                   $ @Html.DisplayFor(modelItem => item.Balance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InterestRate) %
+                </td>
+
+                <td>
+                    <div class="dropDown">
+                        <button class="dropbt">Select an operation</button>
+                        <div class="dropdownContent">
+                            <a asp-area="" asp-controller="Transactions" asp-route-id="@item.AccountNumber">Transcations</a>
+                            <a asp-area="" asp-controller="Transactions" asp-action="TransactionDateRange" asp-route-id="@item.AccountNumber">Transcations date range</a>
+                            <a asp-area="" asp-controller="Transactions" asp-action="Deposit" asp-route-id="@item.AccountNumber">Deposit</a>
+                            <a asp-area="" asp-controller="Transactions" asp-action="Withdraw" asp-route-id="@item.AccountNumber">Withdraw</a>
+                            @if (item.GetType().Name.Equals("Loan"))
+                            {
+                                <a asp-area="" asp-controller="Transactions" asp-action="PayLoan" asp-route-id="@item.AccountNumber">Pay Loan </a>
+                                //@((Loan)item).
+                            }
+                            else
+                            {
+                                <a asp-area="" asp-controller="Transactions" asp-action="Transfer" asp-route-id="@item.AccountNumber">Transfer </a>
+                            }
+                            <a asp-action="Delete" asp-route-id="@item.AccountNumber">Close Account</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
